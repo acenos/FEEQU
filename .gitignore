@@ -1,0 +1,9 @@
+# No object files 
+*.[oa]
+# No images
+*.png
+*.jpg
+*.gif
+# No executables
+*.exe
+
