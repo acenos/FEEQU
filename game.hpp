@@ -4,6 +4,8 @@ class game_data {
 		int map_h;
 		int map_w;
 		int* map;
+		int hero_x;
+		int hero_y;
 
 		game_data();
 		~game_data();

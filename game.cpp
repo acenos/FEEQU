@@ -7,6 +7,8 @@ game_data::game_data()
 	map_h=0;
 	map_w=0;
 	map= 0;	
+	hero_x=0;
+	hero_y=0;
 }
 
 game_data::~game_data()

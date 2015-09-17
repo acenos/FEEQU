@@ -1,5 +1,6 @@
 # No object files 
 *.[oa]
+*.swp
 # No images
 *.png
 *.jpg
