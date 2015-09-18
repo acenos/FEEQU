@@ -1,4 +1,6 @@
 #include <SFML/Graphics.hpp>
+//#include <SFML/Time.hpp>
+//#include <SFML/Clock.hpp>
 #include "game.hpp"
 #include <stdio.h>
 #include <cassert>
@@ -83,23 +85,29 @@ void draw_game()
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML works!");
-	window.setFramerateLimit(20); 
+	window.setFramerateLimit(25); 
 	sf::Sprite sprite_canvas;
+	sf::Clock clock;
 	init_data();
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-        window.clear();
-	draw_game();
-	sprite_canvas.setTexture(canvas.getTexture());
-        window.draw(sprite_canvas);
-        window.display();
-    }
+	while (window.isOpen())
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+		if(clock.getElapsedTime().asSeconds() > 0.41) // ~25fps
+		{
+			clock.restart();
+			draw_game();
+			sprite_canvas.setTexture(canvas.getTexture());
+	
+		}
+		window.clear();
+		window.draw(sprite_canvas);
+		window.display();
+	}
 
     return 0;
 }
