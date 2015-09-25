@@ -18,7 +18,8 @@
 #define HERO 4
 #define TILE_W 16 
 #define TILE_H 16
-
+#define MAP_W 15
+#define MAP_H 15
 game_data game;
 sf::RenderTexture canvas;
 sf::Image img_terrain;
@@ -27,22 +28,28 @@ sf::Texture* textures;
 
 void init_data()
 {
-	game.new_map(9,9);
-	
+	game.new_map(MAP_W,MAP_H);
+    sf::Vector2f tex_coord[] = {
+                                sf::Vector2f(1,120),
+                                sf::Vector2f(1,  1),
+                                sf::Vector2f(1, 69),
+                                sf::Vector2f(1,103)
+                              };
 	for(int i = 0; i < game.map_h*game.map_w; i++) game.map[i] = i % 4;
 	
 	// Loading terrain sprites
-	assert(img_terrain.loadFromFile(IMG_TERRAIN));
-	textures = new sf::Texture[N_SPRITES];
-	textures[WATER].loadFromImage(img_terrain,sf::IntRect(1,120,TILE_W,TILE_H));
-	textures[GRASS].loadFromImage(img_terrain,sf::IntRect(1,1,TILE_W,TILE_H));
-	textures[MONTAIN].loadFromImage(img_terrain,sf::IntRect(1,69,TILE_W,TILE_H));
-	textures[FOREST].loadFromImage(img_terrain,sf::IntRect(1,103,TILE_W,TILE_H));
+    //assert(img_terrain.loadFromFile(IMG_TERRAIN));
+	//textures = new sf::Texture[N_SPRITES];
+	//textures[WATER].loadFromImage(img_terrain,sf::IntRect(1,120,TILE_W,TILE_H));
+	//textures[GRASS].loadFromImage(img_terrain,sf::IntRect(1,1,TILE_W,TILE_H));
+	//textures[MONTAIN].loadFromImage(img_terrain,sf::IntRect(1,69,TILE_W,TILE_H));
+	//textures[FOREST].loadFromImage(img_terrain,sf::IntRect(1,103,TILE_W,TILE_H));
 
 	// Loading character sprites
-	assert(img_sprites.loadFromFile(IMG_SPRITES));
-	img_sprites.createMaskFromColor(sf::Color(128,160,128));
-	textures[HERO].loadFromImage(img_sprites,sf::IntRect(195,244,TILE_W,TILE_H));
+	//assert(img_sprites.loadFromFile(IMG_SPRITES));
+	//img_sprites.createMaskFromColor(sf::Color(128,160,128));
+	//textures[HERO].loadFromImage(img_sprites,sf::IntRect(195,244,TILE_W,TILE_H));
+    game.tilemap.load(IMG_TERRAIN, tex_coord, 4, sf::Vector2u(TILE_W,TILE_H), game.map, MAP_W, MAP_H);
 	
 }
 
@@ -70,7 +77,7 @@ void draw_game()
 					tile.setTexture(&textures[GRASS]);
 					break;
 				default:
-					tile.setFillColor(sf::Color::Magenta);
+					tile.setFillColor(sf::Color::Yellow);
 
 			}
 			tile.setPosition(j*TILE_W,i*TILE_H);
@@ -130,13 +137,14 @@ int main()
 		{
 			force_refresh=false;
 			clock.restart();
-			draw_game();
-			sprite_canvas.setTexture(canvas.getTexture());
+			//draw_game();
+			//sprite_canvas.setTexture(canvas.getTexture());
 	
 		}
 		window.clear();
-		window.draw(sprite_canvas);
+		window.draw(game.tilemap);
 		window.display();
+
 	}
 
     return 0;

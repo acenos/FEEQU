@@ -1,7 +1,9 @@
 
 LIBS= -lsfml-graphics -lsfml-window -lsfml-system
 CC= g++
-CFLAGS= 
+CFLAGS= -g
+CCFLAGS= $(CFLAGS)
+CXXFLAGS= $(CFLAGS)
 OBJ= main.o game.o
 
 
