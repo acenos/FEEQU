@@ -56,6 +56,51 @@ bool TileMap::load(char* texImage, sf::Vector2f * Coord, unsigned int texNum,
 	return true;
 
 }
+
+bool Puppet::load(char* texImage, sf::Vector2f * Coord, unsigned int texNum, 
+          sf::Vector2u tileSize, sf::Color mask)
+{
+    size = tileSize;
+    sf::Image img_temp;   
+	// load the tileset texture
+	if (!img_temp.loadFromFile(texImage))
+		return false;
+    img_temp.createMaskFromColor(mask);
+    m_sprites.loadFromImage(img_temp); 
+    m_basesprites.setPrimitiveType(sf::Quads);
+    m_basesprites.resize(texNum*4);
+    sf::Vertex* tex_quad;
+    sf::Vector2f v1 = sf::Vector2f(tileSize.x,0);
+    sf::Vector2f v2 = sf::Vector2f(tileSize.x,tileSize.y);
+    sf::Vector2f v3 = sf::Vector2f(0,tileSize.y);
+    for(int i = 0; i < texNum; i++)
+    {
+        tex_quad=&m_basesprites[i*4];
+        tex_quad[0].texCoords = Coord[i];
+        tex_quad[1].texCoords = Coord[i]+v1; 
+        tex_quad[2].texCoords = Coord[i]+v2;
+        tex_quad[3].texCoords = Coord[i]+v3;
+
+    }
+
+	// resize the vertex array to fit the level size
+	m_vertices.setPrimitiveType(sf::Quads);
+	m_vertices.resize(4);
+    m_vertices[0].position = sf::Vector2f(0,0);
+    m_vertices[1].position = sf::Vector2f(tileSize.x,0);
+    m_vertices[2].position = sf::Vector2f(tileSize.x,tileSize.y);
+    m_vertices[3].position = sf::Vector2f(0,tileSize.y);
+
+    m_vertices[0].texCoords = m_basesprites[0].texCoords;
+    m_vertices[1].texCoords = m_basesprites[1].texCoords;
+    m_vertices[2].texCoords = m_basesprites[2].texCoords;
+    m_vertices[3].texCoords = m_basesprites[3].texCoords;
+	return true;
+}
+void Puppet::move(int x, int y)
+{
+    this->setPosition(size.x*x, size.y*y);
+}
 game_data::game_data()
 {
 	map_h=0;

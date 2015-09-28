@@ -29,14 +29,19 @@ sf::Texture* textures;
 void init_data()
 {
 	game.new_map(MAP_W,MAP_H);
+    sf::Color sprite_mask = sf::Color(128,160,128);
+    sf::Vector2f sprite_coord[] = {
+                                sf::Vector2f(195,244)
+                              };
     sf::Vector2f tex_coord[] = {
-                                sf::Vector2f(1.0,120.0),
+                                sf::Vector2f(1,120),
                                 sf::Vector2f(1,  1),
                                 sf::Vector2f(1, 69),
                                 sf::Vector2f(1,103)
                               };
 	for(int i = 0; i < game.map_h*game.map_w; i++) game.map[i] = i % 4;
     game.tilemap.load(IMG_TERRAIN, tex_coord, 4, sf::Vector2u(TILE_W,TILE_H), game.map, MAP_W, MAP_H);
+    game.hero_sprite.load(IMG_SPRITES,sprite_coord, 1, sf::Vector2u(TILE_W,TILE_H), sprite_mask);
 	
 }
 
@@ -63,15 +68,13 @@ int main()
 					switch (event.key.code)
 					{
 						case sf::Keyboard::A:
-							game.hero_x--;
-							if(game.hero_x < 0) game.hero_x = game.map_w-1;
+							game.hero_x = game.hero_x == 0 ? game.map_w-1 : game.hero_x-1;
 							break;
 						case sf::Keyboard::D:
-							game.hero_x=(game.hero_x+1)%game.map_w;
+							game.hero_x = (game.hero_x+1)%game.map_w;
 							break;
 						case sf::Keyboard::W:
-							game.hero_y--;
-							if(game.hero_y < 0) game.hero_y = game.map_h-1;
+							game.hero_y = game.hero_y == 0 ? game.map_h-1 : game.hero_y-1;
 							break;
 						case sf::Keyboard::S:
 							game.hero_y=(game.hero_y+1)%game.map_h;
@@ -86,12 +89,14 @@ int main()
 		if(clock.getElapsedTime().asSeconds() > 0.2
 		   || force_refresh) // ~50fps
 		{
+            game.move_hero();
 			force_refresh=false;
 			clock.restart();
 	
 		}
 		window.clear();
 		window.draw(game.tilemap);
+        window.draw(game.hero_sprite);
 		window.display();
 
 	}
