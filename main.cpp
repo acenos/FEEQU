@@ -30,65 +30,16 @@ void init_data()
 {
 	game.new_map(MAP_W,MAP_H);
     sf::Vector2f tex_coord[] = {
-                                sf::Vector2f(1,120),
+                                sf::Vector2f(1.0,120.0),
                                 sf::Vector2f(1,  1),
                                 sf::Vector2f(1, 69),
                                 sf::Vector2f(1,103)
                               };
 	for(int i = 0; i < game.map_h*game.map_w; i++) game.map[i] = i % 4;
-	
-	// Loading terrain sprites
-    //assert(img_terrain.loadFromFile(IMG_TERRAIN));
-	//textures = new sf::Texture[N_SPRITES];
-	//textures[WATER].loadFromImage(img_terrain,sf::IntRect(1,120,TILE_W,TILE_H));
-	//textures[GRASS].loadFromImage(img_terrain,sf::IntRect(1,1,TILE_W,TILE_H));
-	//textures[MONTAIN].loadFromImage(img_terrain,sf::IntRect(1,69,TILE_W,TILE_H));
-	//textures[FOREST].loadFromImage(img_terrain,sf::IntRect(1,103,TILE_W,TILE_H));
-
-	// Loading character sprites
-	//assert(img_sprites.loadFromFile(IMG_SPRITES));
-	//img_sprites.createMaskFromColor(sf::Color(128,160,128));
-	//textures[HERO].loadFromImage(img_sprites,sf::IntRect(195,244,TILE_W,TILE_H));
     game.tilemap.load(IMG_TERRAIN, tex_coord, 4, sf::Vector2u(TILE_W,TILE_H), game.map, MAP_W, MAP_H);
 	
 }
 
-void draw_game()
-{
-	canvas.create(300,300);
-	sf::RectangleShape tile(sf::Vector2f(TILE_W,TILE_H));
-	canvas.clear();
-	// Print scenario
-	for(int i = 0; i < game.map_h; i++)
-		for(int j = 0; j < game.map_w; j++)
-		{
-			switch(game.map[i*game.map_h+j])
-			{
-				case RED:
-					tile.setTexture(&textures[WATER]);
-					break;
-				case BLUE:
-					tile.setTexture(&textures[FOREST]);
-					break;
-				case GREEN:
-					tile.setTexture(&textures[MONTAIN]);
-					break;
-				case YELLOW:
-					tile.setTexture(&textures[GRASS]);
-					break;
-				default:
-					tile.setFillColor(sf::Color::Yellow);
-
-			}
-			tile.setPosition(j*TILE_W,i*TILE_H);
-			canvas.draw(tile);
-		}
-	// Print Hero
-	tile.setTexture(&textures[HERO]);
-	tile.setPosition(game.hero_x*TILE_W,game.hero_y*TILE_H);
-	canvas.draw(tile);
-	canvas.display();
-}
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML works!");
@@ -137,8 +88,6 @@ int main()
 		{
 			force_refresh=false;
 			clock.restart();
-			//draw_game();
-			//sprite_canvas.setTexture(canvas.getTexture());
 	
 		}
 		window.clear();

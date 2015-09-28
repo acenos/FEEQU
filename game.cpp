@@ -17,12 +17,14 @@ bool TileMap::load(char* texImage, sf::Vector2f * Coord, unsigned int texNum,
     sf::Vector2f v3 = sf::Vector2f(0,tileSize.y);
     for(int i = 0; i < texNum; i++)
     {
-        tex_quad=&m_basetiles[i];
+        tex_quad=&m_basetiles[i*4];
         tex_quad[0].texCoords = Coord[i];
         tex_quad[1].texCoords = Coord[i]+v1; 
         tex_quad[2].texCoords = Coord[i]+v2;
         tex_quad[3].texCoords = Coord[i]+v3;
+
     }
+
 	// resize the vertex array to fit the level size
 	m_vertices.setPrimitiveType(sf::Quads);
 	m_vertices.resize(width * height * 4);
@@ -37,7 +39,7 @@ bool TileMap::load(char* texImage, sf::Vector2f * Coord, unsigned int texNum,
             
 			// get a pointer to the current tile's quad
 			sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
-            tex_quad = &m_basetiles[type];
+            tex_quad = &m_basetiles[type*4];
 			// define its 4 corners
 			quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
 			quad[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
@@ -49,7 +51,6 @@ bool TileMap::load(char* texImage, sf::Vector2f * Coord, unsigned int texNum,
 			quad[1].texCoords = tex_quad[1].texCoords;
 			quad[2].texCoords = tex_quad[2].texCoords;
 			quad[3].texCoords = tex_quad[3].texCoords;
-
 		}
 
 	return true;
