@@ -31,6 +31,8 @@ void init_data()
 	game.new_map(MAP_W,MAP_H);
     sf::Color sprite_mask = sf::Color(128,160,128);
     sf::Vector2f sprite_coord[] = {
+                                sf::Vector2f(195,181), 
+                                sf::Vector2f(195,212), 
                                 sf::Vector2f(195,244)
                               };
     sf::Vector2f tex_coord[] = {
@@ -39,15 +41,17 @@ void init_data()
                                 sf::Vector2f(1, 69),
                                 sf::Vector2f(1,103)
                               };
+    unsigned int idle_cycle[] = {0,1,2};
 	for(int i = 0; i < game.map_h*game.map_w; i++) game.map[i] = i % 4;
     game.tilemap.load(IMG_TERRAIN, tex_coord, 4, sf::Vector2u(TILE_W,TILE_H), game.map, MAP_W, MAP_H);
-    game.hero_sprite.load(IMG_SPRITES,sprite_coord, 1, sf::Vector2u(TILE_W,TILE_H), sprite_mask);
+    game.hero_sprite.load(IMG_SPRITES,sprite_coord, 3, sf::Vector2u(TILE_W,TILE_H), sprite_mask);
+    game.hero_sprite.set_idle(idle_cycle, 3);
 	
 }
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(MAP_W * TILE_W, MAP_H * TILE_H), "FEEQU");
 	window.setFramerateLimit(60); 
 	sf::Sprite sprite_canvas;
 	sf::Clock clock;
@@ -64,7 +68,6 @@ int main()
 					window.close();
 					break;
 				case sf::Event::KeyPressed:
-					force_refresh=true;
 					switch (event.key.code)
 					{
 						case sf::Keyboard::A:
@@ -90,6 +93,7 @@ int main()
 		   || force_refresh) // ~50fps
 		{
             game.move_hero();
+            game.hero_sprite.refresh();
 			force_refresh=false;
 			clock.restart();
 	

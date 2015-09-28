@@ -37,6 +37,9 @@ private:
 	sf::VertexArray m_vertices;
 	sf::Texture m_sprites;
     sf::Vector2u size;
+    unsigned int * a_idle;
+    unsigned int s_idle;
+    unsigned int status;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
     	// apply the transform
@@ -50,10 +53,12 @@ private:
     }
 
 public:
-
+     
     bool load(char* texImage, sf::Vector2f * Coord, unsigned int texNum, 
               sf::Vector2u tileSize, sf::Color mask);
+    void set_idle(unsigned int * seq, int size); 
     void move(int x, int y);
+    void refresh();
 
 
 

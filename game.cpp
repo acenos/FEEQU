@@ -101,6 +101,28 @@ void Puppet::move(int x, int y)
 {
     this->setPosition(size.x*x, size.y*y);
 }
+
+void Puppet::set_idle(unsigned int * seq, int size)
+{
+    if(a_idle) delete a_idle;
+    a_idle = new unsigned int[size];
+    s_idle =  size;
+    for(int i = 0; i < size; i++) a_idle[i] = seq[i];
+
+}
+
+void Puppet::refresh()
+{
+    status++;
+    sf::Vertex* tex_quad;
+    tex_quad=&m_basesprites[(status % s_idle)*4];
+    m_vertices[0].texCoords = tex_quad[0].texCoords;
+    m_vertices[1].texCoords = tex_quad[1].texCoords;
+    m_vertices[2].texCoords = tex_quad[2].texCoords;
+    m_vertices[3].texCoords = tex_quad[3].texCoords;
+
+}
+
 game_data::game_data()
 {
 	map_h=0;
