@@ -145,3 +145,26 @@ void game_data::new_map(int h, int w)
 	map = new unsigned int[w*h];
 	
 }
+void game_data::move_hero(int mov)
+{
+    if(cooldown.getElapsedTime() < sf::milliseconds(10)) return;
+    cooldown.restart();
+	switch (mov)
+	{
+		case G_LEFT:
+			hero_x = hero_x == 0 ? map_w-1 : hero_x-1;
+			break;
+		case G_RIGHT:
+			hero_x = (hero_x+1)%map_w;
+			break;
+		case G_UP:
+			hero_y = hero_y == 0 ? map_h-1 : hero_y-1;
+			break;
+		case G_DOWN:
+			hero_y=(hero_y+1)%map_h;
+			break;
+		default:
+		break;
+	}	
+    hero_sprite.move(hero_x,hero_y);
+}

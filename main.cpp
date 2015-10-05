@@ -1,6 +1,4 @@
 #include <SFML/Graphics.hpp>
-//#include <SFML/Time.hpp>
-//#include <SFML/Clock.hpp>
 #include "game.hpp"
 #include <stdio.h>
 #include <cassert>
@@ -71,16 +69,16 @@ int main()
 					switch (event.key.code)
 					{
 						case sf::Keyboard::A:
-							game.hero_x = game.hero_x == 0 ? game.map_w-1 : game.hero_x-1;
+							game.move_hero(G_LEFT);
 							break;
 						case sf::Keyboard::D:
-							game.hero_x = (game.hero_x+1)%game.map_w;
+							game.move_hero(G_RIGHT);
 							break;
 						case sf::Keyboard::W:
-							game.hero_y = game.hero_y == 0 ? game.map_h-1 : game.hero_y-1;
+							game.move_hero(G_UP);
 							break;
 						case sf::Keyboard::S:
-							game.hero_y=(game.hero_y+1)%game.map_h;
+							game.move_hero(G_DOWN);
 							break;
 						default:
 						break;
@@ -92,7 +90,6 @@ int main()
 		if(clock.getElapsedTime().asSeconds() > 0.2
 		   || force_refresh) // ~50fps
 		{
-            game.move_hero();
             game.hero_sprite.refresh();
 			force_refresh=false;
 			clock.restart();

@@ -1,4 +1,8 @@
 #include <SFML/Graphics.hpp>
+#define G_UP 0
+#define G_DOWN 1
+#define G_RIGHT 2
+#define G_LEFT 3
 
 class TileMap : public sf::Drawable, public sf::Transformable
 {
@@ -71,11 +75,12 @@ class game_data {
 		unsigned int* map;
 		unsigned int hero_x;
 		unsigned int hero_y;
+        sf::Clock cooldown;
         Puppet hero_sprite;
         TileMap tilemap;
 		game_data();
 		~game_data();
 		void new_map(int h, int w);
-        void move_hero(){hero_sprite.move(hero_x,hero_y);}
+        void move_hero(int mov);
 
 };
