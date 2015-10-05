@@ -149,22 +149,31 @@ void game_data::move_hero(int mov)
 {
     if(cooldown.getElapsedTime() < sf::milliseconds(10)) return;
     cooldown.restart();
+    int new_x,  new_y;
 	switch (mov)
 	{
 		case G_LEFT:
-			hero_x = hero_x == 0 ? map_w-1 : hero_x-1;
+			new_x = hero_x == 0 ? map_w-1 : hero_x-1;
+            new_y = hero_y;
 			break;
 		case G_RIGHT:
-			hero_x = (hero_x+1)%map_w;
+			new_x = (hero_x+1)%map_w;
+            new_y = hero_y;
 			break;
 		case G_UP:
-			hero_y = hero_y == 0 ? map_h-1 : hero_y-1;
+			new_y = hero_y == 0 ? map_h-1 : hero_y-1;
+            new_x = hero_x;
 			break;
 		case G_DOWN:
-			hero_y=(hero_y+1)%map_h;
+			new_y=(hero_y+1)%map_h;
+            new_x = hero_x;
 			break;
 		default:
 		break;
-	}	
+	}
+    int new_pos = map[new_y*map_h+new_x];
+    if(new_pos== WATER) return;
+    hero_x=new_x;
+    hero_y=new_y;    
     hero_sprite.move(hero_x,hero_y);
 }

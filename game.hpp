@@ -3,6 +3,11 @@
 #define G_DOWN 1
 #define G_RIGHT 2
 #define G_LEFT 3
+#define WATER 0
+#define GRASS 1
+#define MONTAIN 2
+#define FOREST 3
+#define HERO 4
 
 class TileMap : public sf::Drawable, public sf::Transformable
 {
