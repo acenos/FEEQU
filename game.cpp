@@ -57,7 +57,7 @@ bool TileMap::load(char* texImage, sf::Vector2f * Coord, unsigned int texNum,
 
 }
 
-bool Puppet::load(char* texImage, sf::Vector2f * Coord, unsigned int texNum, 
+bool puppet::load(char* texImage, sf::Vector2f * Coord, unsigned int texNum, 
           sf::Vector2u tileSize, sf::Color mask)
 {
     size = tileSize;
@@ -97,12 +97,12 @@ bool Puppet::load(char* texImage, sf::Vector2f * Coord, unsigned int texNum,
     m_vertices[3].texCoords = m_basesprites[3].texCoords;
 	return true;
 }
-void Puppet::move(int x, int y)
+void puppet::move(int x, int y)
 {
     this->setPosition(size.x*x, size.y*y);
 }
 
-void Puppet::set_idle(unsigned int * seq, int size)
+void puppet::set_idle(unsigned int * seq, int size)
 {
     if(a_idle) delete a_idle;
     a_idle = new unsigned int[size];
@@ -111,7 +111,7 @@ void Puppet::set_idle(unsigned int * seq, int size)
 
 }
 
-void Puppet::refresh()
+void puppet::refresh()
 {
     status++;
     sf::Vertex* tex_quad;
@@ -122,6 +122,21 @@ void Puppet::refresh()
     m_vertices[3].texCoords = tex_quad[3].texCoords;
 
 }
+
+
+paw::paw()
+{
+    x = 0;
+    y = 0;
+    w = 0;
+    h = 0;
+    
+}
+
+paw::~paw()
+{
+}
+
 
 game_data::game_data()
 {

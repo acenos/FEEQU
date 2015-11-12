@@ -38,7 +38,7 @@ public:
 
 };
 
-class Puppet : public sf::Drawable, public sf::Transformable
+class puppet : public sf::Drawable, public sf::Transformable
 {
 private:
     
@@ -72,6 +72,20 @@ public:
 
 
 };
+
+class paw
+{
+public:
+    puppet Puppet;
+    unsigned int x;
+    unsigned int y;
+    unsigned int w;
+    unsigned int h;
+    paw();
+    ~paw();
+
+};
+
 class game_data {
 
 	public:
@@ -81,8 +95,9 @@ class game_data {
 		unsigned int hero_x;
 		unsigned int hero_y;
         sf::Clock cooldown;
-        Puppet hero_sprite;
+        puppet hero_sprite;
         TileMap tilemap;
+        paw enemy;
 		game_data();
 		~game_data();
 		void new_map(int h, int w);

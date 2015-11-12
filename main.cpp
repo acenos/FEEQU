@@ -26,10 +26,14 @@ sf::Texture* textures;
 
 void init_data()
 {
+    // Read Map from file in text.
     string line, full_text;
     ifstream map_file(MAP_FILE);
     if(map_file.is_open())
     {   
+        // The first elements are the size of the map
+        // Right now this is a fast prototype,
+        // there is no protection of any kind.
         while(getline(map_file,line))full_text.append(line);
         int i,j;
         int w,h;
@@ -57,11 +61,15 @@ void init_data()
     }
     else
     {
+        // And by default map I mean a fixed matrix
         printf("Error opening map file/nUsing default map");
+
 	    game.new_map(MAP_W,MAP_H);
 	    for(int i = 0; i < game.map_h*game.map_w; i++) game.map[i] = i % 4;
     }
     sf::Color sprite_mask = sf::Color(128,160,128);
+
+    // Initialize hero
     sf::Vector2f sprite_coord[] = {
                                 sf::Vector2f(195,181), 
                                 sf::Vector2f(195,212), 
@@ -79,6 +87,21 @@ void init_data()
     game.hero_sprite.move(game.hero_x,game.hero_y);
     game.hero_sprite.set_idle(idle_cycle, 3);
 	
+    // Initialize Enemy
+    sprite_coord[0] = sf::Vector2f(195,2173); 
+    sprite_coord[1] = sf::Vector2f(195,2205); 
+    sprite_coord[2] = sf::Vector2f(195,2237);
+  
+    idle_cycle[0] = 0;
+    idle_cycle[1] = 1;
+    idle_cycle[2] = 2;
+
+    game.enemy.x = 14;
+    game.enemy.y = 14;
+    
+    game.enemy.Puppet.load(IMG_SPRITES,sprite_coord, 3, sf::Vector2u(TILE_W,TILE_H), sprite_mask);
+    game.enemy.Puppet.set_idle(idle_cycle, 3);
+    game.enemy.Puppet.move(14,14);
 }
 
 int main()
@@ -125,6 +148,7 @@ int main()
 		   || force_refresh) // ~50fps
 		{
             game.hero_sprite.refresh();
+            game.enemy.Puppet.refresh();
 			force_refresh=false;
 			clock.restart();
 	
@@ -132,6 +156,7 @@ int main()
 		window.clear();
 		window.draw(game.tilemap);
         window.draw(game.hero_sprite);
+        window.draw(game.enemy.Puppet);
 		window.display();
 
 	}
